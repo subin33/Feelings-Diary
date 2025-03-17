@@ -7,6 +7,8 @@ html,body {
   margin: 0;
   width: 100%;
   background-color: rgb(246, 246, 246);
+  /* 여기서 display: flex; 를 하면 전체페이지를 다 감싸도록 된다  */
+  display: flex;
 }
 
 #root {
