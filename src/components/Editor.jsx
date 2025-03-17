@@ -1,8 +1,9 @@
 import "./Editor.css"
 import EmotionItem from "./EmotionItem"
 import Button from "./Button"
-import { useState } from "react"
+import { useState , useEffect} from "react"
 import { useNavigate } from "react-router-dom"
+
 
 const emotionList = [
   {
@@ -42,13 +43,25 @@ const getStringedDate = (targetDate) => {
   return `${year}-${month}-${date}`
 }
 
-const Editor = ({onSubmit}) => {
-  const nav = useNavigate();
+const Editor = ({initData, onSubmit}) => {
+  
   const [input,setInput] = useState({
     createdDate: new Date(),
     emotionId : 3,
     content:"",
   });
+console.log(input)
+  const nav = useNavigate();
+
+  useEffect(() => {
+    if (initData) {
+      setInput({
+        ...initData,
+        createdDate: new Date(Number(initData.createdDate)),
+      });
+    }
+  }, [initData]);
+
   const onChangeInput = (e) => {
     let name = e.target.name; //어떤 요소에 입력이 들어온건지 
     let value = e.target.value; //입력된 값이 무엇인지
@@ -94,7 +107,12 @@ const Editor = ({onSubmit}) => {
       </section>
       <section className="content_section">
         <h4>오늘의 일기</h4>
-        <textarea name="content" value={input.content} onChange={onChangeInput} placeholder="오늘은 어땠나요?"/>
+        <textarea 
+          name="content" 
+          value={input.content} 
+          onChange={onChangeInput} 
+          placeholder="오늘은 어땠나요?"
+        />
       </section>
       <section className="button_section">
         <Button onClick={() => nav(-1)} text={"취소하기"}/>
